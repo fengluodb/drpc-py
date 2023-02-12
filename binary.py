@@ -25,3 +25,16 @@ def ReadUvarint(data: bytes) -> tuple[int, int]:
         s += 7
 
     return 0, 0
+
+def write_string(s: str) -> bytes:
+    data = PutUvarint(len(s))
+    return data + bytes(s, encoding='utf-8')
+
+def read_string(data: bytes) -> tuple[str, int]:
+    idx = 0
+    length, size = ReadUvarint(data)
+    idx += size
+    s = str(data[idx:idx+length], encoding='utf-8')
+    idx += length
+
+    return s, idx
